@@ -60,7 +60,7 @@ public class AppearanceMasker : IMasker // Masks both outfit and Character appea
 
 
                 if (PluginServices.ClientState.LocalPlayer != null &&
-                    gameObject.GameObjectId == PluginServices.ClientState.LocalPlayer.GameObjectId)
+                    gameObject.GameObjectId == PluginServices.ClientState.LocalPlayer.GameObjectId && !PluginServices.Config.MaskSelf)
                 {
                     continue;
                 }

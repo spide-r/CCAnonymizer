@@ -21,7 +21,7 @@ public class BattleLogMasker: IMasker
     private void OnBattleLog(AddonEvent type, AddonArgs args) {
         unsafe
         {
-            if (!PluginServices.Config.MaskPlayerAndCombatLog || !PluginServices.ClientState.IsPvPExcludingDen)
+            if (!PluginServices.Config.MaskPlayerListAndCombatLog || !PluginServices.ClientState.IsPvPExcludingDen)
             {
                 return;
             }

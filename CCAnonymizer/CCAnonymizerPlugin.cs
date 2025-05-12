@@ -1,4 +1,5 @@
-﻿using Dalamud.Game.Command;
+﻿using CCAnonymizer.Windows;
+using Dalamud.Game.Command;
 using Dalamud.Interface.Windowing;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
@@ -7,37 +8,53 @@ namespace CCAnonymizer;
 
 public sealed class CCAnonymizerPlugin : IDalamudPlugin
 {
+    private readonly WindowSystem _windowSystem = new("CCAnonymizer");
+    private ConfigWindow ConfigWindow { get; init; }
+    private ICommandManager CommandManager { get; init; }
+    private IDalamudPluginInterface PluginInterface { get; init; }
 
-    private const string CommandName = "/panon";
 
-    public readonly WindowSystem WindowSystem = new("CCAnon");
     public CCAnonymizerPlugin(IDalamudPluginInterface pluginInterface,
         ICommandManager commandManager)
     {
         PluginServices.Initialize(pluginInterface);
-        pluginInterface.UiBuilder.OpenConfigUi += ToggleConfigUI;
-        pluginInterface.UiBuilder.Draw += DrawUI;
+        CommandManager = commandManager;
+        PluginInterface = pluginInterface;
 
+        pluginInterface.UiBuilder.OpenConfigUi += ToggleConfigUi;
+        pluginInterface.UiBuilder.Draw += DrawUi;
+        CommandManager.AddHandler("/panon", new CommandInfo(OnCommand)
+        {
+            HelpMessage = "Open Config"
+        });
+        ConfigWindow = new ConfigWindow(this);
+        _windowSystem.AddWindow(ConfigWindow);
     }
 
-    private void ToggleConfigUI()
+    private void ToggleConfigUi()
     {
+        ConfigWindow.Toggle();
     }
 
-    private void DrawUI()
+    private void DrawUi()
     {
-        WindowSystem.Draw();
+        _windowSystem.Draw();
     }
 
 
     private void OnCommand(string command, string arguments)
     {
+        ToggleConfigUi();
     }
 
     public void Dispose()
     {
-        WindowSystem.RemoveAllWindows();
+        _windowSystem.RemoveAllWindows();
 
+        ConfigWindow.Dispose();
+
+        CommandManager.RemoveHandler("/panon");
+        PluginInterface.UiBuilder.OpenConfigUi -= ToggleConfigUi;
 
     }
 }

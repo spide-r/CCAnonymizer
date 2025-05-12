@@ -14,11 +14,11 @@ public class PlayerListMasker: IMasker
 
     }
 
-    private void OnPlayerListPreDraw(AddonEvent type, AddonArgs args)
+    private static void OnPlayerListPreDraw(AddonEvent type, AddonArgs args)
     {
         try
         {
-            if (!PluginServices.Config.MaskPlayerAndCombatLog || !PluginServices.ClientState.IsPvPExcludingDen)
+            if (!PluginServices.Config.MaskPlayerListAndCombatLog || !PluginServices.ClientState.IsPvPExcludingDen)
             {
                 return;
             }
@@ -37,7 +37,7 @@ public class PlayerListMasker: IMasker
                     }
                     var combatant = args.AddonName.Equals("PvPMKSPartyList1") ? "Ally" : "Enemy";
 
-                    if (combatant.Equals("Ally") && i == 6) 
+                    if (combatant.Equals("Ally") && i == 6 && !PluginServices.Config.MaskSelf) 
                     {
                         // don't mask ourselves
                         // GOTCHA: this assumes that we are always the first in the party list

@@ -9,11 +9,10 @@ namespace CCAnonymizer;
 
 public class PluginServices
 {
+#pragma warning disable CS8618 
+
     [PluginService]
     internal static IChatGui ChatGui { get; private set; }
-    
-    [PluginService]
-    internal static IGameGui GameGui { get; private set; }
     
     [PluginService]
     internal static IPluginLog PluginLog { get; private set; }
@@ -26,28 +25,19 @@ public class PluginServices
     
     [PluginService]
     internal static IFramework Framework { get; private set; }
-    
-    [PluginService]
-    internal static IGameInteropProvider GameInteropProvider { get; private set; }
-    
     [PluginService]
     internal static INamePlateGui NamePlateGui { get; private set; }
     
     [PluginService]
-    internal static IAddonEventManager AddonEventManager { get; private set; }
-    
-    [PluginService]
     internal static IAddonLifecycle AddonLifecycle { get; private set; }
-    
-    [PluginService]
-    internal static ICondition Condition { get; private set; }
     
     internal static Configuration Config { get; private set; }
     
     internal static IMaskerManager MaskerManager { get; private set; }
     
     internal static IMatchManager MatchManager { get; private set; }
-    
+#pragma warning restore CS8618 
+
 
     
     internal static void Initialize(IDalamudPluginInterface pluginInterface)

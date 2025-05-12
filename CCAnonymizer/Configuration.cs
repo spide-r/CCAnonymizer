@@ -12,12 +12,12 @@ public class Configuration : IPluginConfiguration
     public bool MaskNameplates { get; set; } = true;
     public bool MaskTargeting { get; set; } = true;
     public bool MaskScoreboard { get; set; } = true;
-    public bool MaskPlayerAndCombatLog { get; set; } = true;
+    public bool MaskPlayerListAndCombatLog { get; set; } = true;
     public bool MaskPortraits { get; set; } = true;
     public bool MaskPlayerAppearance { get; set; } = true;
     public bool MaskPlayerOutfit { get; set; } = true;
     public bool MaskChat { get; set; } = true;
-    
+    public bool MaskSelf { get; set; } = false;
     public bool AbbreviateJobs { get; set; } = false;
     
     [NonSerialized]
