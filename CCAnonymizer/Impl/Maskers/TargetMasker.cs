@@ -2,6 +2,7 @@
 using CCAnonymizer.Interfaces;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
+using Dalamud.Game.ClientState.Objects.SubKinds;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace CCAnonymizer.Impl.Maskers;
@@ -12,7 +13,6 @@ public class TargetMasker: IMasker
     {
         PluginServices.AddonLifecycle.RegisterListener(AddonEvent.PreDraw, ["_TargetInfoMainTarget", "_FocusTargetInfo"], OnPreDraw);
     }
-
     private void OnPreDraw(AddonEvent type, AddonArgs args)
     {
         if (!PluginServices.ClientState.IsPvPExcludingDen || !PluginServices.Config.MaskTargeting)
@@ -25,22 +25,35 @@ public class TargetMasker: IMasker
             {
                 if (args is AddonDrawArgs drawArgs)
                 {
-                    var a = (AtkUnitBase*) drawArgs.Addon;
-                    if (a is null)
+                    var addon = (AtkUnitBase*) drawArgs.Addon;
+                    if (addon is null)
                     {
                         return;
                     }
 
-                    var node = a->GetTextNodeById(10);
-                    var targetName = node->GetText().ToString();
-                    node->SetText(PluginServices.MatchManager.GetCombatantNameOrDefault(targetName));
-                    if(args.AddonName.Equals("_TargetInfoMainTarget"))
+                    var node = addon->GetTextNodeById(10);
+
+                    switch (args.AddonName)
                     {
-                        var targetTargetNode = a->GetTextNodeById(7); // if your target is targeting something
-                        var targetTargetName = targetTargetNode->GetText().ToString();
-                        targetTargetNode->SetText(PluginServices.MatchManager.GetCombatantNameOrDefault(targetTargetName));
+                        case "_FocusTargetInfo":
+                            node->SetText("Focus Target");
+                            break;
+                        // only check for node 7 if we're targeting someone
+                        case "_TargetInfoMainTarget":
+                        {
+                            var targetName = node->GetText().ToString();
+                            if (targetName.IndexOf('«') != -1)
+                            {
+                                var newName = targetName[targetName.IndexOf('«')..]; // «Job»
+                                node->SetText(newName);
+                            }
+                           
+                            var targetTargetNode = addon->GetTextNodeById(7); // if your target is targeting something
+                            var targetTargetName = targetTargetNode->GetText().ToString();
+                            targetTargetNode->SetText(PluginServices.MatchManager.GetCombatantNameOrDefault(targetTargetName));
+                            break;
+                        }
                     }
-           
                 }
             }
             catch (Exception e)

@@ -33,7 +33,7 @@ public class NamePlateMasker: IMasker
                 if(PluginServices.ClientState.LocalPlayer == null) continue;
                 if(plate.PlayerCharacter.GameObjectId == PluginServices.ClientState.LocalPlayer.GameObjectId) continue;
             
-                if (plate.Name.ToString().Contains('》')) continue; //《 and 》 - No need to mask this plate
+                if (plate.Name.ToString().Contains('《')) continue; //《 and 》 - No need to mask this plate
             
                 var j = plate.BattleChara.ClassJob.Value;
                 var jobStr = PluginServices.Config.AbbreviateJobs ? j.Abbreviation.ToString() : j.NameEnglish.ToString();

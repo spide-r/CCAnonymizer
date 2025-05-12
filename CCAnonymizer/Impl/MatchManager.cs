@@ -11,13 +11,11 @@ public partial class MatchManager: IMatchManager
     {
         return IsLastCharNumber(playerName) ? playerName : _playerCombatantMap.GetValueOrDefault(playerName, playerName);
     }
-    
-    [GeneratedRegex("[0-9]")]
-    private static partial Regex CharRegex();
 
     private static bool IsLastCharNumber(string name) 
     {
-        return CharRegex().IsMatch(name[name.Length].ToString());
+        return name.EndsWith('1') || name.EndsWith('2') || name.EndsWith('3') || name.EndsWith('4')
+               || name.EndsWith('5') || name.EndsWith('6');
     }
 
     public void UpdateName(string playerName, string replacement)

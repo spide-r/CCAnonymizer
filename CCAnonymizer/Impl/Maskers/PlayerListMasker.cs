@@ -18,7 +18,7 @@ public class PlayerListMasker: IMasker
     {
         try
         {
-            if (!PluginServices.Config.MaskPlayerList || !PluginServices.ClientState.IsPvPExcludingDen)
+            if (!PluginServices.Config.MaskPlayerAndCombatLog || !PluginServices.ClientState.IsPvPExcludingDen)
             {
                 return;
             }
@@ -37,18 +37,21 @@ public class PlayerListMasker: IMasker
                     }
                     var combatant = args.AddonName.Equals("PvPMKSPartyList1") ? "Ally" : "Enemy";
 
-                    if (combatant == "Ally" && i == 6) 
+                    if (combatant.Equals("Ally") && i == 6) 
                     {
                         // don't mask ourselves
                         // GOTCHA: this assumes that we are always the first in the party list
                         // Some plugins may change the party list order
                         PluginServices.MatchManager.UpdateName(text, text);
-                        continue;
+                    }
+                    else
+                    {
+                        var newName = combatant + " " + (i - 5);
+                        PluginServices.MatchManager.UpdateName(text, newName);
+                        tt->SetText(newName); 
                     }
              
-                    var newName = combatant + " " + (i - 5);
-                    PluginServices.MatchManager.UpdateName(text, newName);
-                    tt->SetText(newName); 
+                    
                 }
             }
         }

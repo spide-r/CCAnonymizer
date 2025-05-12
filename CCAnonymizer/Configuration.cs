@@ -11,8 +11,8 @@ public class Configuration : IPluginConfiguration
 
     public bool MaskNameplates { get; set; } = true;
     public bool MaskTargeting { get; set; } = true;
-    public bool MaskBattleLog { get; set; } = true;
-    public bool MaskPlayerList { get; set; } = true;
+    public bool MaskScoreboard { get; set; } = true;
+    public bool MaskPlayerAndCombatLog { get; set; } = true;
     public bool MaskPortraits { get; set; } = true;
     public bool MaskPlayerAppearance { get; set; } = true;
     public bool MaskPlayerOutfit { get; set; } = true;

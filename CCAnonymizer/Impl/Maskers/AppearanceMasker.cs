@@ -53,41 +53,50 @@ public class AppearanceMasker : IMasker // Masks both outfit and Character appea
     {
         foreach (var gameObject in PluginServices.ObjectTable)
         {
-            if (gameObject.ObjectKind != ObjectKind.Player) continue;
-            if (_appliedUsers.Contains(gameObject.GameObjectId)) continue;
-                
-
-            if (PluginServices.ClientState.LocalPlayer != null && gameObject.GameObjectId == PluginServices.ClientState.LocalPlayer.GameObjectId)
+            try
             {
-                continue;
-            }
-                
-            var pc = (IPlayerCharacter) gameObject;
+                if (gameObject.ObjectKind != ObjectKind.Player) continue;
+                if (_appliedUsers.Contains(gameObject.GameObjectId)) continue;
 
-            var job = pc.ClassJob.Value.Abbreviation.ToString();
-            var glamour = Glamours.GetGlamour(job);
-            if (PluginServices.Config.MaskPlayerAppearance)
+
+                if (PluginServices.ClientState.LocalPlayer != null &&
+                    gameObject.GameObjectId == PluginServices.ClientState.LocalPlayer.GameObjectId)
+                {
+                    continue;
+                }
+
+                var pc = (IPlayerCharacter) gameObject;
+
+                var job = pc.ClassJob.Value.Abbreviation.ToString();
+                var glamour = Glamours.GetGlamour(job);
+                if (PluginServices.Config.MaskPlayerAppearance)
+                {
+                    ApplyCustomization(gameObject.ObjectIndex, Glamours.GetDefaultAppearance());
+
+                }
+
+                if (PluginServices.Config.MaskPlayerOutfit)
+                {
+                    ApplyOutfit(gameObject.ObjectIndex, glamour);
+
+                }
+
+                _appliedUsers.Add(gameObject.GameObjectId);
+            }
+            catch (Exception e)
             {
-                ApplyCustomization(gameObject.ObjectIndex, Glamours.GetDefaultAppearance());
-
+                PluginServices.PluginLog.Error("AppearanceMasker#ApplyMasking", e);
             }
-
-            if (PluginServices.Config.MaskPlayerOutfit)
-            {
-                ApplyOutfit(gameObject.ObjectIndex, glamour);
-
-            }
-            _appliedUsers.Add(gameObject.GameObjectId);
         }
     }
     private void ApplyCustomization(ushort objectIndex, string state)
     {
-        _applyState.Invoke(state, objectIndex, 0, ApplyFlag.Equipment | ApplyFlag.Once);
+        _applyState.Invoke(state, objectIndex, 0, ApplyFlag.Customization | ApplyFlag.Once);
     }
     
     private void ApplyOutfit(ushort objectIndex, string outfit)
     {
-        _applyState.Invoke(outfit, objectIndex, 0, ApplyFlag.Customization | ApplyFlag.Once); 
+        _applyState.Invoke(outfit, objectIndex, 0, ApplyFlag.Equipment | ApplyFlag.Once); 
     }
 
     public void Dispose()

@@ -14,6 +14,7 @@ public class MaskerManager(IDalamudPluginInterface pluginInterface) : IMaskerMan
     private readonly ChatMasker _chat = new();
     private readonly BattleLogMasker _battleLog = new();
     private readonly PlayerListMasker _playerList = new();
+    private readonly ScoreboardMasker _scoreboard = new();
 
     public void Dispose()
     {
@@ -25,5 +26,6 @@ public class MaskerManager(IDalamudPluginInterface pluginInterface) : IMaskerMan
         _chat.Dispose();
         _battleLog.Dispose();
         _playerList.Dispose();
+        _scoreboard.Dispose();
     }
 }
