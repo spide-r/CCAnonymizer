@@ -1,21 +1,32 @@
-﻿using CCAnonymizer.Interfaces;
-using Lumina.Excel.Sheets;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using CCAnonymizer.Interfaces;
 
 namespace CCAnonymizer.Impl;
 
-public class MatchManager: IMatchManager
+public partial class MatchManager: IMatchManager
 {
-    public string GetJobOrDefault(string playerName)
+    private readonly Dictionary<string, string> _playerCombatantMap = new();
+    public string GetCombatantNameOrDefault(string playerName)
     {
-        return "REPLACE ME!"; //todo
+        return IsLastCharNumber(playerName) ? playerName : _playerCombatantMap.GetValueOrDefault(playerName, playerName);
+    }
+    
+    [GeneratedRegex("[0-9]")]
+    private static partial Regex CharRegex();
+
+    private static bool IsLastCharNumber(string name) 
+    {
+        return CharRegex().IsMatch(name[name.Length].ToString());
     }
 
-    public void UpdateJob(string playerName, ClassJob job)
+    public void UpdateName(string playerName, string replacement)
     {
+        _playerCombatantMap[playerName] = replacement;
     }
 
-    public string GetJobOrDefault(int job)
+    public bool NeedsToUpdateName(string playerName)
     {
-        return "PvP Job!!";
+        return !IsLastCharNumber(playerName);
     }
 }

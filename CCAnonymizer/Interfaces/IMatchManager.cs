@@ -4,8 +4,8 @@ namespace CCAnonymizer.Interfaces;
 
 public interface IMatchManager
 {
-    string GetJobOrDefault(string playerName); // returns the passed value if its not detected 
-    void UpdateJob(string playerName, ClassJob job);
+    string GetCombatantNameOrDefault(string playerName); // returns the passed value if its not detected 
+    void UpdateName(string playerName, string replacement);
     
-    string GetJobOrDefault(int job);
+    bool NeedsToUpdateName(string playerName);
 }

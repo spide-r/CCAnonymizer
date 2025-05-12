@@ -14,7 +14,7 @@ public class NamePlateMasker: IMasker
     
     public void Dispose()
     {
-        System.GC.SuppressFinalize(this);
+        GC.SuppressFinalize(this);
         PluginServices.NamePlateGui.OnNamePlateUpdate -= OnNameplateUpdate;
     }
 

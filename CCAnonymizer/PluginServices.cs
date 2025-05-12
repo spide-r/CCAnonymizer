@@ -1,4 +1,5 @@
 ﻿using CCAnonymizer.Impl;
+using CCAnonymizer.Impl.Maskers;
 using CCAnonymizer.Interfaces;
 using Dalamud.IoC;
 using Dalamud.Plugin;

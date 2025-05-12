@@ -42,6 +42,8 @@ public class PortraitMasker: IMasker
     public void Dispose()
     {
         GC.SuppressFinalize(this);
+        PluginServices.AddonLifecycle.UnregisterListener(AddonEvent.PreDraw, ["PvPMKSIntroduction", "PvPMKSRankRatingFunction"], OnPreDraw);
+
         
     }
 }

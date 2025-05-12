@@ -16,6 +16,7 @@ public class MaskerManager: IMaskerManager
     
     public void Dispose()
     {
+        GC.SuppressFinalize(this);
         _appearance.Dispose();
         _namePlate.Dispose();
         _portrait.Dispose();

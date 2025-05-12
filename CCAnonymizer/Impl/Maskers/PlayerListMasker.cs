@@ -26,12 +26,29 @@ public class PlayerListMasker: IMasker
             {
                 var addon = (AtkUnitBase*) args.Addon;
 
-                for (int i = 6; i < 11; i++)
+                for (var i = 6; i < 11; i++)
                 {
                     var aa = addon->GetComponentByNodeId((uint)i);
                     var tt = aa->GetTextNodeById(21)->GetAsAtkTextNode();
+                    var text = tt->GetText().ToString();
+                    if (!PluginServices.MatchManager.NeedsToUpdateName(text))
+                    {
+                        continue;
+                    }
                     var combatant = args.AddonName.Equals("PvPMKSPartyList1") ? "Ally" : "Enemy";
-                    tt->SetText(combatant + " " + (i - 5)); 
+
+                    if (combatant == "Ally" && i == 6) 
+                    {
+                        // don't mask ourselves
+                        // GOTCHA: this assumes that we are always the first in the party list
+                        // Some plugins may change the party list order
+                        PluginServices.MatchManager.UpdateName(text, text);
+                        continue;
+                    }
+             
+                    var newName = combatant + " " + (i - 5);
+                    PluginServices.MatchManager.UpdateName(text, newName);
+                    tt->SetText(newName); 
                 }
             }
         }
@@ -43,6 +60,7 @@ public class PlayerListMasker: IMasker
 
     public void Dispose()
     {
+        GC.SuppressFinalize(this);
         PluginServices.AddonLifecycle.UnregisterListener(AddonEvent.PreDraw, ["PvPMKSPartyList1", "PvPMKSPartyList3"], OnPlayerListPreDraw);
 
     }

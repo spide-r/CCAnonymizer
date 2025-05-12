@@ -26,9 +26,9 @@ public class ChatMasker: IMasker
             {
                 return;
             }
+            
             try
             {
-                //todo: rewrite 
                 if (type is not (XivChatType.Party or XivChatType.Alliance)) return;
                 var job = "";
                 foreach (var payload in sender.Payloads)
@@ -41,12 +41,21 @@ public class ChatMasker: IMasker
                     var isNumber = int.TryParse(payload.ToString(), out _);
 
                     if (payload.Type != PayloadType.Icon || payload.ToString()!.Contains("CrossWorld") ||
-                        isNumber) continue;
+                        isNumber)
+                    {
+                        continue;
+                    }
                     var raw = payload.ToString();
-                    if (raw != null) job = raw.Substring(7);
+                    if (raw != null)
+                    {
+                        job = raw[7..];
+                    }
                 }
 
-                if (!isHandled) return;
+                if (!isHandled)
+                {
+                    return;
+                }
                 
                 var chat = new XivChatEntry
                 {

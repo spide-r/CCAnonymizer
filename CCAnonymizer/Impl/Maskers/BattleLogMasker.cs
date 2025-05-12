@@ -14,6 +14,7 @@ public class BattleLogMasker: IMasker
     }
     public void Dispose()
     {
+        GC.SuppressFinalize(this);
         PluginServices.AddonLifecycle.UnregisterListener(AddonEvent.PreDraw, "PvPMKSBattleLog", OnBattleLog);
     }
     
@@ -31,7 +32,8 @@ public class BattleLogMasker: IMasker
                 {
                     var aa = addon->GetComponentByNodeId((uint)i);
                     var tt = aa->GetTextNodeById(8)->GetAsAtkTextNode();
-                    tt->SetText("Dummy Value " + i); //todo: update w/ job
+                    var text = tt->GetText().ToString();
+                    tt->SetText(PluginServices.MatchManager.GetCombatantNameOrDefault(text)); 
                 }
             }
             catch (Exception e)
