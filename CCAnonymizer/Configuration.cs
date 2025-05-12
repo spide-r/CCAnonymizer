@@ -10,19 +10,15 @@ public class Configuration : IPluginConfiguration
     public int Version { get; set; } = 0;
 
     public bool MaskNameplates { get; set; } = true;
+    public bool MaskTargeting { get; set; } = true;
+    public bool MaskBattleLog { get; set; } = true;
+    public bool MaskPlayerList { get; set; } = true;
     public bool MaskPortraits { get; set; } = true;
     public bool MaskPlayerAppearance { get; set; } = true;
     public bool MaskPlayerOutfit { get; set; } = true;
     public bool MaskChat { get; set; } = true;
     
     public bool AbbreviateJobs { get; set; } = false;
-    
-    public bool UseCustomOutfit { get; set; } = false;
-    public bool UseCustomAppearance { get; set; } = false;
-    
-    public string CustomOutfit { get; set; } = "";
-    public string CustomAppearance { get; set; } = "";
-
     
     [NonSerialized]
     private IDalamudPluginInterface? _pluginInterface;

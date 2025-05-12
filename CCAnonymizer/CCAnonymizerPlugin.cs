@@ -14,8 +14,7 @@ public sealed class CCAnonymizerPlugin : IDalamudPlugin
     public CCAnonymizerPlugin(IDalamudPluginInterface pluginInterface,
         ICommandManager commandManager)
     {
-        
-
+        PluginServices.Initialize(pluginInterface);
         pluginInterface.UiBuilder.OpenConfigUi += ToggleConfigUI;
         pluginInterface.UiBuilder.Draw += DrawUI;
 

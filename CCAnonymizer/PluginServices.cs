@@ -1,4 +1,6 @@
-﻿using Dalamud.IoC;
+﻿using CCAnonymizer.Impl;
+using CCAnonymizer.Interfaces;
+using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 
@@ -8,6 +10,9 @@ public class PluginServices
 {
     [PluginService]
     internal static IChatGui ChatGui { get; private set; }
+    
+    [PluginService]
+    internal static IGameGui GameGui { get; private set; }
     
     [PluginService]
     internal static IPluginLog PluginLog { get; private set; }
@@ -27,12 +32,29 @@ public class PluginServices
     [PluginService]
     internal static INamePlateGui NamePlateGui { get; private set; }
     
+    [PluginService]
+    internal static IAddonEventManager AddonEventManager { get; private set; }
+    
+    [PluginService]
+    internal static IAddonLifecycle AddonLifecycle { get; private set; }
+    
+    [PluginService]
+    internal static ICondition Condition { get; private set; }
+    
     internal static Configuration Config { get; private set; }
+    
+    internal static IMaskerManager MaskerManager { get; private set; }
+    
+    internal static IMatchManager MatchManager { get; private set; }
 
     
     internal static void Initialize(IDalamudPluginInterface pluginInterface)
     {
-        Config = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
         pluginInterface.Create<PluginServices>();
+        Config = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+        MaskerManager = new MaskerManager();
+        MatchManager = new MatchManager();
+
     }
+    
 }
