@@ -1,0 +1,1 @@
+This plugin masks your teammates and enemies when in Crystaline conflict. 

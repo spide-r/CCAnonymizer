@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using CCAnonymizer.Interfaces;
 
 namespace CCAnonymizer.Impl;
 
-public partial class MatchManager: IMatchManager
+public class MatchManager: IMatchManager
 {
     private readonly Dictionary<string, string> _playerCombatantMap = new();
     //todo: eventually create support for different ways of displaying names

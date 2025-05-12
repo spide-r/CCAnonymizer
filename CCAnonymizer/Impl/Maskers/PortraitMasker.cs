@@ -13,7 +13,7 @@ public class PortraitMasker: IMasker
         PluginServices.AddonLifecycle.RegisterListener(AddonEvent.PreDraw, ["PvPMKSIntroduction", "PvPMKSRankRatingFunction"], OnPreDraw);
     }
 
-    private void OnPreDraw(AddonEvent type, AddonArgs args)
+    private static void OnPreDraw(AddonEvent type, AddonArgs args)
     {
         if (!PluginServices.ClientState.IsPvPExcludingDen || !PluginServices.Config.MaskPortraits)
         {
@@ -23,15 +23,13 @@ public class PortraitMasker: IMasker
         {
             try
             {
-                if (args is AddonDrawArgs drawArgs)
+                if (args is not AddonDrawArgs drawArgs) return;
+                var a = (AtkUnitBase*) drawArgs.Addon;
+                if (a is null)
                 {
-                    var a = (AtkUnitBase*) drawArgs.Addon;
-                    if (a is null)
-                    {
-                        return;
-                    }
-                    a->SetAlpha(0);
+                    return;
                 }
+                a->SetAlpha(0);
             }
             catch (Exception e)
             {

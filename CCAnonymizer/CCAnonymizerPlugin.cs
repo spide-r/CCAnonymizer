@@ -52,7 +52,7 @@ public sealed class CCAnonymizerPlugin : IDalamudPlugin
         _windowSystem.RemoveAllWindows();
 
         ConfigWindow.Dispose();
-
+        PluginServices.MaskerManager.Dispose();
         CommandManager.RemoveHandler("/panon");
         PluginInterface.UiBuilder.OpenConfigUi -= ToggleConfigUi;
 

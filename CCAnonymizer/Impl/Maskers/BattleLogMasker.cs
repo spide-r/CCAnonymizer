@@ -18,7 +18,7 @@ public class BattleLogMasker: IMasker
         PluginServices.AddonLifecycle.UnregisterListener(AddonEvent.PreDraw, "PvPMKSBattleLog", OnBattleLog);
     }
     
-    private void OnBattleLog(AddonEvent type, AddonArgs args) {
+    private static void OnBattleLog(AddonEvent type, AddonArgs args) {
         unsafe
         {
             if (!PluginServices.Config.MaskPlayerListAndCombatLog || !PluginServices.ClientState.IsPvPExcludingDen)
@@ -28,7 +28,7 @@ public class BattleLogMasker: IMasker
             try
             {
                 var addon = (AtkUnitBase*)args.Addon;
-                for (int i = 7; i < 13; i++)
+                for (var i = 7; i < 13; i++)
                 {
                     var aa = addon->GetComponentByNodeId((uint)i);
                     var tt = aa->GetTextNodeById(8)->GetAsAtkTextNode();

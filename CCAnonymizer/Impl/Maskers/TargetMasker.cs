@@ -2,7 +2,6 @@
 using CCAnonymizer.Interfaces;
 using Dalamud.Game.Addon.Lifecycle;
 using Dalamud.Game.Addon.Lifecycle.AddonArgTypes;
-using Dalamud.Game.ClientState.Objects.SubKinds;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace CCAnonymizer.Impl.Maskers;
