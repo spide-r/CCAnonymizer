@@ -1,19 +1,20 @@
 ﻿using System;
 using CCAnonymizer.Impl.Maskers;
 using CCAnonymizer.Interfaces;
+using Dalamud.Plugin;
 
 namespace CCAnonymizer.Impl.Maskers;
 
-public class MaskerManager: IMaskerManager
+public class MaskerManager(IDalamudPluginInterface pluginInterface) : IMaskerManager
 {
-    private readonly AppearanceMasker _appearance = new();
+    private readonly AppearanceMasker _appearance = new(pluginInterface);
     private readonly NamePlateMasker _namePlate = new();
     private readonly PortraitMasker _portrait = new();
     private readonly TargetMasker _target = new();
     private readonly ChatMasker _chat = new();
     private readonly BattleLogMasker _battleLog = new();
     private readonly PlayerListMasker _playerList = new();
-    
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);

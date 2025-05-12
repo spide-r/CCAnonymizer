@@ -47,13 +47,14 @@ public class PluginServices
     internal static IMaskerManager MaskerManager { get; private set; }
     
     internal static IMatchManager MatchManager { get; private set; }
+    
 
     
     internal static void Initialize(IDalamudPluginInterface pluginInterface)
     {
         pluginInterface.Create<PluginServices>();
         Config = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-        MaskerManager = new MaskerManager();
+        MaskerManager = new MaskerManager(pluginInterface);
         MatchManager = new MatchManager();
 
     }
