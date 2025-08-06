@@ -24,7 +24,7 @@ public class TargetMasker: IMasker
             {
                 if (args is AddonDrawArgs drawArgs)
                 {
-                    var addon = (AtkUnitBase*) drawArgs.Addon;
+                    var addon = (AtkUnitBase*) drawArgs.Addon.Address;
                     if (addon is null)
                     {
                         return;

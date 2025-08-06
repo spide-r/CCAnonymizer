@@ -26,7 +26,7 @@ public class ScoreboardMasker: IMasker
             
             try
             {
-                var addon = (AtkUnitBase*)args.Addon;
+                var addon = (AtkUnitBase*) args.Addon.Address;
                 var listComponent = addon->GetComponentListById(56);
                 // node id 5 is name, 6 is world
                 for (var i = 0; i < listComponent->GetItemCount(); i++)

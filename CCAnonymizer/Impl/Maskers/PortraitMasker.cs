@@ -24,7 +24,7 @@ public class PortraitMasker: IMasker
             try
             {
                 if (args is not AddonDrawArgs drawArgs) return;
-                var a = (AtkUnitBase*) drawArgs.Addon;
+                var a = (AtkUnitBase*) drawArgs.Addon.Address;
                 if (a is null)
                 {
                     return;

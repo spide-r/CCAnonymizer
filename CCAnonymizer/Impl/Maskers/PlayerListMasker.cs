@@ -24,7 +24,7 @@ public class PlayerListMasker: IMasker
             }
             unsafe
             {
-                var addon = (AtkUnitBase*) args.Addon;
+                var addon = (AtkUnitBase*) args.Addon.Address;
 
                 for (var i = 6; i < 11; i++)
                 {

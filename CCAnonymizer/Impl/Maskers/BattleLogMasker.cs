@@ -27,7 +27,7 @@ public class BattleLogMasker: IMasker
             }
             try
             {
-                var addon = (AtkUnitBase*)args.Addon;
+                var addon = (AtkUnitBase*) args.Addon.Address;
                 for (var i = 7; i < 13; i++)
                 {
                     var aa = addon->GetComponentByNodeId((uint)i);
