@@ -51,6 +51,10 @@ public class AppearanceMasker : IMasker // Masks both outfit and Character appea
 
     private void ApplyMasking()
     {
+        if (!_applyState.Valid)
+        {
+            return; // glamourer not in a valid state / not loaded - cant do anything without a valid IPC
+        }
         foreach (var gameObject in PluginServices.ObjectTable)
         {
             try
