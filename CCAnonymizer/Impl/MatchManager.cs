@@ -12,7 +12,7 @@ public class MatchManager: IMatchManager
         return IsLastCharNumber(playerName) ? playerName : _playerCombatantMap.GetValueOrDefault(playerName,"Combatant");
     }
     
-    private static bool IsLastCharNumber(string name) 
+    private static bool IsLastCharNumber(string name) //todo: This does not function properly when the user is blacklisted. Their name shows up as Unknown 01 
     {
         return name.EndsWith('1') || name.EndsWith('2') || name.EndsWith('3') || name.EndsWith('4')
                || name.EndsWith('5') || name.EndsWith('6') || name.EndsWith('7') || name.EndsWith('8') || name.EndsWith('9') 
