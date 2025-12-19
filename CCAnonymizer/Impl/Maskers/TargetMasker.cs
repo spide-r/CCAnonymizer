@@ -22,36 +22,34 @@ public class TargetMasker: IMasker
         {
             try
             {
-                if (args is AddonDrawArgs drawArgs)
+               // if (args.Type != AddonArgsType.Show) return;
+                var addon = (AtkUnitBase*) args.Addon.Address;
+                if (addon is null)
                 {
-                    var addon = (AtkUnitBase*) drawArgs.Addon.Address;
-                    if (addon is null)
-                    {
-                        return;
-                    }
+                    return;
+                }
 
-                    var node = addon->GetTextNodeById(10);
+                var node = addon->GetTextNodeById(10);
 
-                    switch (args.AddonName)
+                switch (args.AddonName)
+                {
+                    case "_FocusTargetInfo":
+                        node->SetText("Focus Target");
+                        break;
+                    // only check for node 7 if we're targeting someone
+                    case "_TargetInfoMainTarget":
                     {
-                        case "_FocusTargetInfo":
-                            node->SetText("Focus Target");
-                            break;
-                        // only check for node 7 if we're targeting someone
-                        case "_TargetInfoMainTarget":
+                        var targetName = node->GetText().ToString();
+                        if (targetName.IndexOf('«') != -1)
                         {
-                            var targetName = node->GetText().ToString();
-                            if (targetName.IndexOf('«') != -1)
-                            {
-                                var newName = targetName[targetName.IndexOf('«')..]; // «Job»
-                                node->SetText(newName);
-                            }
-                           
-                            var targetTargetNode = addon->GetTextNodeById(7); // if your target is targeting something
-                            var targetTargetName = targetTargetNode->GetText().ToString();
-                            targetTargetNode->SetText(PluginServices.MatchManager.GetCombatantNameOrDefault(targetTargetName));
-                            break;
+                            var newName = targetName[targetName.IndexOf('«')..]; // «Job»
+                            node->SetText(newName);
                         }
+                           
+                        var targetTargetNode = addon->GetTextNodeById(7); // if your target is targeting something
+                        var targetTargetName = targetTargetNode->GetText().ToString();
+                        targetTargetNode->SetText(PluginServices.MatchManager.GetCombatantNameOrDefault(targetTargetName));
+                        break;
                     }
                 }
             }

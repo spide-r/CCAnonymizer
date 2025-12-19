@@ -30,8 +30,8 @@ public class NamePlateMasker: IMasker
             {
                 if(plate.PlayerCharacter == null) continue;
                 if(plate.BattleChara == null) continue;
-                if(PluginServices.ClientState.LocalPlayer == null) continue;
-                if(plate.PlayerCharacter.GameObjectId == PluginServices.ClientState.LocalPlayer.GameObjectId) continue;
+                if(PluginServices.ObjectTable.LocalPlayer == null) continue;
+                if(plate.PlayerCharacter.GameObjectId == PluginServices.ObjectTable.LocalPlayer.GameObjectId) continue;
             
                 if (plate.Name.ToString().Contains('《')) continue; //《 and 》 - No need to mask this plate
             
